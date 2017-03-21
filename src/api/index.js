@@ -36,7 +36,6 @@ const apiUrl = "http://iaspub.epa.gov/enviro/efservice/"
 
 const localRequest = false//(location.hostname === "localhost" || location.hostname === "127.0.0.1")
 
-
 const genXhrArgs = () => {
   return {
     method: 'GET',
