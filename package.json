@@ -10,11 +10,9 @@
     "dist": "npm run clean && npm run copy && webpack --progress --bail --env dist -p",
     "lint": "eslint ./src",
     "posttest": "npm run lint",
-    "release:major": "npm version prerelease && git push --follow-tags && npm publish --tag beta",
-    "release:minor": "npm version prerelease && git push --follow-tags && npm publish --tag beta",
-    "release:patch": "npm version prerelease && git push --follow-tags && npm publish --tag beta",
     "serve:dev": "webpack-dev-server --open --env dev",
     "serve:dist": "webpack-dev-server --open --env dist -p --progress",
+    "server": "node src/server/server.js",
     "start": "npm run serve:dev",
     "test": "cross-env NODE_ENV=test karma start",
     "test:watch": "cross-env NODE_ENV=test karma start --autoWatch=true --singleRun=false --reporters=mocha,coverage"
@@ -55,25 +53,30 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "mocha": "^3.0.0",
+    "node-sass": "^3.7.0",
+    "nodemon": "^1.11.0",
     "null-loader": "^0.1.1",
     "phantomjs-prebuilt": "^2.1.7",
     "react-addons-test-utils": "^15.0.1",
     "rimraf": "^2.5.2",
+    "sass-loader": "^3.2.0",
     "sinon": "^1.17.3",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack-dev-server": "^2.1.0-beta",
-    "sass-loader": "^3.2.0",
-    "node-sass": "^3.7.0"
+    "webpack-dev-server": "^2.1.0-beta"
   },
   "dependencies": {
     "cross-env": "^3.1.0",
+    "express": "^4.15.2",
     "react": "^15.0.1",
     "react-css-modules": "^3.7.10",
     "react-dom": "^15.0.1",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
-    "webpack": "^2.1.0-beta.6"
+    "request": "^2.81.0",
+    "webpack": "^2.1.0-beta.6",
+    "xhr": "^2.4.0",
+    "xtend": "^4.0.1"
   }
 }

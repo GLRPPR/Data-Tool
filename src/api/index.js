@@ -21,41 +21,62 @@ import extend from 'xtend';
   7: Count - This is an optional entry and is shown as #7 in the above URL image. Count shows the total number of records that will be returned for this search once the Count option is removed. When Count is used, Excel, CSV, or XML cannot be specified. The column name is not case sensitive.
 */
 
-const defaultArgs = {
-  table: undefined,
-  column: undefined,      // Optional
-  operator: undefined,    // Optional
-  columnValue: undefined, // Optional unless column specified
-  rows: undefined,        // Optional
-  outputFormat: 'JSON',   // Optional
-  outputFormat: undefined // Optional
+const potentialOperators = ["<", " >", "!=", "BEGINNING", "CONTAINING"]
+
+const constructURI = (args) => {
+  let uri = "http://localhost:3000/efservice"
+
+  // Enforce table name
+  if (typeof args.table == 'undefined'){
+    console.log("Error: Please specify a table")
+  } else {
+    uri += `/${args.table}`
+  }
+  // Enforce column name
+  if (typeof args.column == 'undefined'){
+    console.log("Error: Please specify a column")
+  } else {
+    uri += `/${args.column}`
+  }
+  // Enforce operator
+  if (potentialOperators.indexOf(args.operator) > -1){
+    uri += `/${args.operator}`
+  } else {
+    uri += '/='
+  }
+  // Enforce column value
+  if (typeof args.columnValue == 'undefined'){
+    console.log("Error: Please specify a columnValue")
+  } else {
+    uri += `/${args.columnValue}`
+  }
+  // Validate rows
+  if (typeof args.rows != 'undefined'){
+    uri += `/rows/${args.rows}`
+  }
+  // Validate outputFormat
+  if (typeof args.outputFormat == 'undefined'){
+    uri += '/JSON'
+  } else {
+    uri += `/${args.outputFormat}`
+  }
+  return uri
 }
-
-
-const apiUrl = "http://iaspub.epa.gov/enviro/efservice/"
-
-const localRequest = false//(location.hostname === "localhost" || location.hostname === "127.0.0.1")
-
-const genXhrArgs = () => {
+const genXhrArgs = (args) => {
+  //console.log("XXX: genXhrArgs args:")
+  //console.log(args)
+  //console.log(`XXX: genXhrArgs constructedURI: ${constructURI(args)}`)
   return {
     method: 'GET',
-    headers: extend({
+    uri: constructURI(args),
+    headers: {
+      // Default to getting back json, support later to be added for csv in order to download content
       "Content-Type": "application/json"
-    },
-    localRequest && {
-      "Access-Control-Allow-Origin": "*"
-    })
+    }
   }
 }
 
-exports.request = function (args) {
-  console.log(localRequest)
-  console.log(genXhrArgs())
+exports.request = function (args, callback) {
   // Make HTTP request to envirofacts api
-  xhr(extend(genXhrArgs(), {
-    //uri: `${apiUrl}/${defaultArgs.table}`
-    uri: "https://iaspub.epa.gov/enviro/efservice/tri_facility/state_abbr/VA/rows/499:504/JSON"
-  }), function (err, resp, body) {
-      // check resp.statusCode
-  })
+  xhr(genXhrArgs(args), callback)
 }
