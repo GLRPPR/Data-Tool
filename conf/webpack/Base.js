@@ -85,7 +85,13 @@ class WebpackBaseConfig {
         historyApiFallback: true,
         hot: true,
         inline: true,
-        port: 8000
+        port: 8000,
+        proxy: {
+          '/efservice/*': {
+            target: 'http://localhost:3000/',
+            pathRewrite: {'^/efservice' : ''}
+          }
+        }
       },
       entry: './index.js',
       module: {
