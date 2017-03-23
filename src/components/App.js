@@ -1,14 +1,15 @@
-import React, {PropTypes} from 'react'
+import React, {Component, PropTypes} from 'react'
 
 //import './app.css'
 import api from '../api'
+import MapComponent from './Map.js'
 
-export default class AppComponent extends React.Component {
+export default class AppComponent extends Component {
   constructor(props) {
     super(props)
     // This should be taken in by user in the future as a prop to a sub component, this POC
     this.state = {
-      args :{
+      args : {
         table: "tri_facility",
         column: "state_abbr",
         operator: "=",
@@ -27,7 +28,19 @@ export default class AppComponent extends React.Component {
 
   render() {
     const apiResponse = api.request(this.state.args, this.handleRequest)
-    return (<div className="index">{this.state.data}</div>)
+    console.log(apiResponse)
+    return (
+      <div className="app-container">
+        <div className="map-half">
+          <MapComponent/>
+        </div>
+        <div className="data-half">
+          {
+            this.state.data && this.state.data
+          }
+        </div>
+      </div>
+    )
   }
 }
 
