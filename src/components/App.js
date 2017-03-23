@@ -28,6 +28,7 @@ export default class AppComponent extends Component {
 
   render() {
     const apiResponse = api.request(this.state.args, this.handleRequest)
+    console.log(apiResponse)
     return (
       <div className="app-container">
         <div className="map-half">
