@@ -38,16 +38,11 @@ class Map extends Component {
         type: "map-image"
       });
 
-      const hurricanes = new MapImageLayer({
-        type: "map-image",
-        url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Hurricanes/MapServer/'
-      });
       const map = new Map({
         basemap: CONSTANTS.BASEMAPS.DARK_GRAY_VECTOR,
         layers: [
           lakesCounties,
-          usa,
-          hurricanes
+          usa
         ]
       })
 
