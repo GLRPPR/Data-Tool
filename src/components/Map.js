@@ -2,31 +2,61 @@ import React, { Component } from 'react'
 import { isLoaded, bootstrap, dojoRequire } from 'esri-loader'
 import cssmodules from 'react-css-modules'
 import styles from './map.cssmodule.scss'
+import autobind from 'autobind-decorator'
 
+import Legend from './legend/Legend'
 import CONSTANTS from '../utils/constants'
 
+@autobind
 class Map extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   createMap() {
+    const { mapId, actions } = this.props;
     dojoRequire(
       [
         "esri/layers/FeatureLayer",
-         "esri/Map",
-         "esri/views/MapView"
+        "esri/layers/MapImageLayer",
+        "esri/Map",
+        "esri/views/MapView"
       ], (
         FeatureLayer,
+        MapImageLayer,
         Map,
         MapView) => {
-      const fl = new FeatureLayer({
-        url: "http://data.isgs.illinois.edu/arcgis/rest/services/Projects/Counties/MapServer/0"
+
+      const lakesCounties = new FeatureLayer({
+        url: "http://data.isgs.illinois.edu/arcgis/rest/services/Projects/Counties/MapServer/0",
+        type: "feature"
       })
-      const esriMap = new Map({
+
+      const usa = new MapImageLayer({
+        url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer",
+        visible: false,
+        type: "map-image"
+      });
+
+      const hurricanes = new MapImageLayer({
+        type: "map-image",
+        url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/Hurricanes/MapServer/'
+      });
+      const map = new Map({
         basemap: CONSTANTS.BASEMAPS.DARK_GRAY_VECTOR,
-        layers: [fl]
+        layers: [
+          lakesCounties,
+          usa,
+          hurricanes
+        ]
       })
+
       const view = new MapView({
         container: this.refs.mapView,
-        map: esriMap
+        map: map
       })
+
+      actions.setInitialLegend(view, mapId);
     })
   }
 
@@ -46,8 +76,21 @@ class Map extends Component {
   }
 
   render() {
+    const { actions, mapLegend, mapId } = this.props
     return (
-      <div ref='mapView' className="map-component" styleName="map-component">
+      <div styleName="map-component">
+        <div ref="mapView" styleName="map-component"/>
+        <div styleName="legend">
+          <Legend
+            style={{}}
+            mapId={mapId}
+            actions={actions}
+            legends={mapLegend.legends}
+            options={mapLegend.options}
+            scales={mapLegend.scales}
+            views={mapLegend.views}
+            />
+        </div>
       </div>
     )
   }
@@ -55,7 +98,5 @@ class Map extends Component {
 
 
 Map.displayName = 'Map';
-Map.propTypes = {};
-Map.defaultProps = {};
 
 export default cssmodules(Map, styles);

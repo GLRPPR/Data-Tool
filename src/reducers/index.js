@@ -9,6 +9,9 @@
  */
 /* Populated by react-webpack-redux:reducer */
 import { combineReducers } from 'redux';
-const reducers = { };
+import mapLegend from '../reducers/legend/mapLegend.js';
+const reducers = {
+  mapLegend
+};
 const combined = combineReducers(reducers);
 module.exports = combined;

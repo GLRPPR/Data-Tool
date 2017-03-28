@@ -4,3 +4,12 @@
   min-height: 100%;
   margin: 0 auto;
 }
+
+.legend {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25%;
+  background-color: white;
+}

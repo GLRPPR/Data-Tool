@@ -1,7 +1,11 @@
-﻿import React from 'react';
+import React, {PureComponent} from 'react';
 import { connect } from 'react-redux';
-import { fetchLegend, toggleExpanded, toggleNodeExpanded, toggleNodeVisible, toggleShowSettings, reverseLayerOrder, showLayersNotVisibleForScale } from '../actions/map-legend';
+import autobind from 'autobind-decorator'
+import cssmodules from 'react-css-modules';
 
+//import styles from './legend.cssmodule.scss';
+
+// TODO: make these styles not inlined
 const styles = {
   clickLegendNode: {
     cursor: 'pointer',
@@ -31,10 +35,10 @@ const styles = {
   },
   options: {
     opacity: 0.5
-  }, 
+  },
   optionsOn: {
     opacity: 1
-  },  
+  },
   settingsPanel: {
     position: 'absolute',
     top: 30,
@@ -43,7 +47,7 @@ const styles = {
     zIndex: 101,
     width: '90%',
     border: 'solid 1px rgba(0,0,0,0.2)'
-  },  
+  },
   legendPadding: {
     paddingRight: 12,
     paddingBottom: 10,
@@ -69,9 +73,15 @@ const styles = {
   }
 };
 
-class MapLegend extends React.PureComponent {
-  initialise = () => {
-    const { legends, mapId, fetchLegend } = this.props;
+@autobind
+class Legend extends PureComponent {
+  constructor(props) {
+    super(props)
+  }
+
+  _initialise() {
+    const { legends, mapId } = this.props;
+    const { fetchLegend } = this.props.actions;
     const legend = legends[mapId];
 
     if (!legend) {
@@ -86,14 +96,14 @@ class MapLegend extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.initialise();
+    this._initialise();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.initialise();
+    this._initialise();
   }
 
-  renderSubNodeLegendData = item => {
+  renderSubNodeLegendData(item) {
     const imageStyle = {
       width: item.imageWidth + 8,
       height: item.imageHeight,
@@ -110,15 +120,14 @@ class MapLegend extends React.PureComponent {
         <label style={styles.textStyle}>{item.label}</label>
       </div>
     );
-  };
+  }
 
-  renderSubNodes = item => {
+  renderSubNodes(item) {
+    const { mapId, scales } = this.props
     const {
-      mapId,
-      scales,
       toggleNodeExpanded,
       toggleNodeVisible
-    } = this.props;
+    } = this.props.actions;
 
     const currentScale = scales[mapId];
 
@@ -151,7 +160,7 @@ class MapLegend extends React.PureComponent {
           <span
             style={item.visible ? styles.legendCheckboxSelected : styles.legendCheckbox}
             onClick={() => toggleNodeVisible(item.id, mapId)}
-            className={item.visible ? 'esri-icon-visible' : 'esri-icon-non-visible'}
+            className={item.visible ? 'esri-icon-radio-checked' : 'esri-icon-radio-unchecked'}
           />
           <label
             style={styles.legendCheckboxLabel}
@@ -169,13 +178,14 @@ class MapLegend extends React.PureComponent {
     );
   };
 
-  renderNodes = item => {
+  renderNodes(item) {
 
     if (!item.alreadyLoaded) {
       return null;
     }
 
-    const { mapId, options, scales, toggleNodeExpanded, toggleNodeVisible } = this.props;
+    const { mapId, options, scales} = this.props;
+    const { toggleNodeExpanded, toggleNodeVisible } = this.props.actions;
 
     const currentScale = scales[mapId];
 
@@ -196,11 +206,11 @@ class MapLegend extends React.PureComponent {
 
     let sublayers = item.expanded && (item.legendLayers || item.hasDomNode)
       ? item.legendLayers
-          ? item.legendLayers.map(this.renderSubNodes)
+          ? item.legendLayers.map(this.renderSubNodes, this)
           : item.hasDomNode
               ? <div style={subMarginStyle} dangerouslySetInnerHTML={{ __html: item.domNode }} />
               : null
-      : null;   
+      : null;
 
     let topNodeExpander = !item.legendLayers && !item.hasDomNode
       ? null
@@ -215,7 +225,7 @@ class MapLegend extends React.PureComponent {
         <span
           style={item.visible ? styles.legendCheckboxSelected : styles.legendCheckbox}
           onClick={() => toggleNodeVisible(item.id, mapId)}
-          className={item.visible ? 'esri-icon-visible' : 'esri-icon-non-visible'}
+          className={item.visible ? 'esri-icon-radio-checked' : 'esri-icon-radio-unchecked'}
         />
         <label style={styles.legendCheckboxLabel} onClick={() => toggleNodeVisible(item.id, mapId)}>
           {item.layerName}
@@ -231,7 +241,13 @@ class MapLegend extends React.PureComponent {
   };
 
   render() {
-    const { legends, options, mapId, toggleExpanded, reverseLayerOrder, showLayersNotVisibleForScale, toggleShowSettings } = this.props;
+    const { legends, options, mapId } = this.props;
+    const {
+      toggleExpanded,
+      reverseLayerOrder,
+      showLayersNotVisibleForScale,
+      toggleShowSettings
+    } = this.props.actions;
     const legend = legends[mapId];
 
     if (!legend) {
@@ -244,24 +260,24 @@ class MapLegend extends React.PureComponent {
       <div className="arcgis-legend">
         <div>
           <div style={styles.titleContainer}>
-            <label>{mapId.split('-').join(' - ')}</label>      
+            <label>{mapId.split('-').join(' - ')}</label>
             {
-              option    
+              option
               ? <div style={styles.titleControls}>
-                  <span 
-                    title='Expand all' 
-                    className="esri-icon-down-arrow" 
+                  <span
+                    title='Expand all'
+                    className="esri-icon-down-arrow"
                     style={{marginRight: 4}}
                     onClick={() => toggleExpanded(mapId, true)} />
-                  <span 
-                    title='Collapse all' 
-                    className="esri-icon-right-triangle-arrow" 
+                  <span
+                    title='Collapse all'
+                    className="esri-icon-right-triangle-arrow"
                     style={{ marginRight: 4}}
                     onClick={() => toggleExpanded(mapId, false)} />
-                  <span 
-                    title='Options' 
-                    style={option.showOptions ? styles.optionsOn : styles.options} 
-                    className="esri-icon-settings" 
+                  <span
+                    title='Options'
+                    style={option.showOptions ? styles.optionsOn : styles.options}
+                    className="esri-icon-settings"
                     onClick={() => toggleShowSettings(mapId)} />
                 </div>
               : null
@@ -299,54 +315,22 @@ class MapLegend extends React.PureComponent {
                     </label>
                   </div>
                 </div>
-              </div> 
+              </div>
             :null
-          }          
+          }
         </div>
         <div style={styles.legendPadding}>
-          {legend.map(this.renderNodes)}
+          {legend.map(this.renderNodes, this)}
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    legends: state.mapLegendConfig.legends,
-    options: state.mapLegendConfig.options,
-    scales: state.mapLegendConfig.scales
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchLegend: (url, mapId) => {
-      dispatch(fetchLegend(url, mapId));
-    },
-    toggleExpanded: (mapId, expanded) => {
-      dispatch(toggleExpanded(mapId, expanded));
-    },
-    toggleNodeExpanded: (id, mapId) => {
-      dispatch(toggleNodeExpanded(id, mapId));
-    },
-    toggleNodeVisible: (id, mapId) => {
-      dispatch(toggleNodeVisible(id, mapId));
-    },
-    toggleShowSettings: (mapId) => {
-      dispatch(toggleShowSettings(mapId));
-    },
-    reverseLayerOrder: (mapId) => {
-      dispatch(reverseLayerOrder(mapId));
-    },
-    showLayersNotVisibleForScale: (mapId, show) => {
-      dispatch(showLayersNotVisibleForScale(mapId, show));
-    }
-  };
-};
-
-MapLegend.propTypes = {
+Legend.displayName = 'Legend';
+Legend.propTypes = {
   mapId: React.PropTypes.string.isRequired
 };
+Legend.defaultProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapLegend);
+export default cssmodules(Legend, styles);

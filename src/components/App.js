@@ -42,6 +42,8 @@ class App extends Component {
 
 
   render() {
+    const { actions, mapLegend } = this.props;
+
     const parameters = {
       "Table": "table",
       "Column": "column",
@@ -71,7 +73,10 @@ class App extends Component {
         {/* Content Wrapper */}
         <div styleName="content">
           <div styleName="map-container">
-            <Map/>
+            <Map
+              mapId="Main Map"
+              actions={actions}
+              mapLegend={mapLegend}/>
           </div>
           {/*
 
@@ -98,7 +103,5 @@ class App extends Component {
 }
 
 App.displayName = 'App'
-App.propTypes = {}
-App.defaultProps = {}
 
 export default cssmodules(App, styles)
