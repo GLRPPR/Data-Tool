@@ -11,7 +11,6 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  set_initial_legend,
   setInitialLegend,
   reverseLayerOrder,
   showLayersNotVisibleForScale,
@@ -19,17 +18,21 @@ import {
   toggleNodeExpanded,
   toggleNodeVisible,
   toggleShowSettings,
-  fetchLegend
+  fetchLegend,
+  updateBaseMap
 } from '../actions/';
 import AppComponent from '../components/App';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const {actions, mapLegend, initLegend} = this.props;
-    return <AppComponent
-      actions={actions}
-      initLegend={initLegend}
-      mapLegend={mapLegend}/>;
+    const {actions, mapLegend, initLegend, map} = this.props;
+    return (
+      <AppComponent
+        actions={actions}
+        initLegend={initLegend}
+        mapLegend={mapLegend}
+        map={map}/>
+    );
   }
 }
 /* Populated by react-webpack-redux:reducer
@@ -46,13 +49,18 @@ App.propTypes = {
     toggleNodeExpanded: PropTypes.func.isRequired,
     toggleNodeVisible: PropTypes.func.isRequired,
     toggleShowSettings: PropTypes.func.isRequired,
-    fetchLegend: PropTypes.func.isRequired
-  })
+    fetchLegend: PropTypes.func.isRequired,
+    updateBaseMap: PropTypes.func.isRequired
+  }),
+  map: PropTypes.shape({})
 };
 function mapStateToProps(state) {
   // eslint-disable-line no-unused-vars
   /* Populated by react-webpack-redux:reducer */
-  const props = { mapLegend: state.mapLegend };
+  const props = {
+    mapLegend: state.mapLegend,
+    map: state.map
+  };
   return props;
 }
 function mapDispatchToProps(dispatch) {
@@ -65,11 +73,10 @@ function mapDispatchToProps(dispatch) {
     toggleNodeExpanded,
     toggleNodeVisible,
     toggleShowSettings,
-    fetchLegend
+    fetchLegend,
+    updateBaseMap
   };
-  const actionMap = {
-    actions: bindActionCreators(actions, dispatch)
-  };
+  const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);

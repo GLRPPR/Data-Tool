@@ -42,7 +42,7 @@ class App extends Component {
 
 
   render() {
-    const { actions, mapLegend } = this.props;
+    const { actions, mapLegend, map } = this.props;
 
     const parameters = {
       "Table": "table",
@@ -75,6 +75,7 @@ class App extends Component {
           <div styleName="map-container">
             <Map
               mapId="Main Map"
+              baseMap={map.baseMap}
               actions={actions}
               mapLegend={mapLegend}/>
           </div>
@@ -103,5 +104,19 @@ class App extends Component {
 }
 
 App.displayName = 'App'
+// This takes in some other props that need to be validated aswell.
+App.propTypes = {
+  actions: PropTypes.shape({
+    setInitialLegend: PropTypes.func.isRequired,
+    reverseLayerOrder: PropTypes.func.isRequired,
+    showLayersNotVisibleForScale: PropTypes.func.isRequired,
+    toggleExpanded: PropTypes.func.isRequired,
+    toggleNodeExpanded: PropTypes.func.isRequired,
+    toggleNodeVisible: PropTypes.func.isRequired,
+    toggleShowSettings: PropTypes.func.isRequired,
+    fetchLegend: PropTypes.func.isRequired,
+    updateBaseMap: PropTypes.func.isRequired
+  })
+}
 
 export default cssmodules(App, styles)

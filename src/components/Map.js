@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { isLoaded, bootstrap, dojoRequire } from 'esri-loader'
 import cssmodules from 'react-css-modules'
 import styles from './map.cssmodule.scss'
 import autobind from 'autobind-decorator'
+import Draggable, {DraggableCore} from 'react-draggable';
 
 import Legend from './legend/Legend'
-import CONSTANTS from '../utils/constants'
 
 @autobind
 class Map extends Component {
@@ -39,7 +39,7 @@ class Map extends Component {
       });
 
       const map = new Map({
-        basemap: CONSTANTS.BASEMAPS.DARK_GRAY_VECTOR,
+        basemap: this.props.baseMap,
         layers: [
           lakesCounties,
           usa
@@ -74,24 +74,40 @@ class Map extends Component {
     const { actions, mapLegend, mapId } = this.props
     return (
       <div styleName="map-component">
-        <div ref="mapView" styleName="map-component"/>
-        <div styleName="legend">
-          <Legend
-            style={{}}
-            mapId={mapId}
-            actions={actions}
-            legends={mapLegend.legends}
-            options={mapLegend.options}
-            scales={mapLegend.scales}
-            views={mapLegend.views}
-            />
-        </div>
-      </div>
+        <div ref="mapView" styleName="map-component"></div>
+        <Draggable
+          zIndex={100} >
+          <div styleName="legend-container">
+            <Legend
+              style={{}}
+              mapId={mapId}
+              actions={actions}
+              legends={mapLegend.legends}
+              options={mapLegend.options}
+              scales={mapLegend.scales}
+              views={mapLegend.views}
+              />
+          </div>
+        </Draggable>
+    </div>
     )
   }
 }
 
-
-Map.displayName = 'Map';
+Map.displayName = 'Map'
+Map.propTypes = {
+  baseMap: PropTypes.string,
+  actions: PropTypes.shape({
+    setInitialLegend: PropTypes.func.isRequired,
+    reverseLayerOrder: PropTypes.func.isRequired,
+    showLayersNotVisibleForScale: PropTypes.func.isRequired,
+    toggleExpanded: PropTypes.func.isRequired,
+    toggleNodeExpanded: PropTypes.func.isRequired,
+    toggleNodeVisible: PropTypes.func.isRequired,
+    toggleShowSettings: PropTypes.func.isRequired,
+    fetchLegend: PropTypes.func.isRequired,
+    updateBaseMap: PropTypes.func.isRequired
+  })
+}
 
 export default cssmodules(Map, styles);
