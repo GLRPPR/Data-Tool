@@ -1,15 +1,31 @@
 import React, { Component } from 'react'
-import './App.css'
 import { isLoaded, bootstrap, dojoRequire } from 'esri-loader'
+import cssmodules from 'react-css-modules'
+import styles from './map.cssmodule.scss'
 
-export default class MapComponent extends Component {
+import CONSTANTS from '../utils/constants'
 
+class Map extends Component {
   createMap() {
-
-    dojoRequire(['esri/Map', 'esri/views/MapView'], (Map, MapView) => {
-      new MapView({
+    dojoRequire(
+      [
+        "esri/layers/FeatureLayer",
+         "esri/Map",
+         "esri/views/MapView"
+      ], (
+        FeatureLayer,
+        Map,
+        MapView) => {
+      const fl = new FeatureLayer({
+        url: "http://data.isgs.illinois.edu/arcgis/rest/services/Projects/Counties/MapServer/0"
+      })
+      const esriMap = new Map({
+        basemap: CONSTANTS.BASEMAPS.DARK_GRAY_VECTOR,
+        layers: [fl]
+      })
+      const view = new MapView({
         container: this.refs.mapView,
-        map: new Map({basemap: 'topo'})
+        map: esriMap
       })
     })
   }
@@ -25,14 +41,21 @@ export default class MapComponent extends Component {
         url: 'https://js.arcgis.com/4.1/'
       })
     } else {
-
       this.createMap()
     }
   }
 
   render() {
     return (
-      <div ref='mapView' className='map-view'></div>
+      <div ref='mapView' className="map-component" styleName="map-component">
+      </div>
     )
   }
 }
+
+
+Map.displayName = 'Map';
+Map.propTypes = {};
+Map.defaultProps = {};
+
+export default cssmodules(Map, styles);

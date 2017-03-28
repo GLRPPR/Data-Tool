@@ -1,14 +1,17 @@
 import React, {Component, PropTypes} from 'react'
 import extend from 'xtend'
+import cssmodules from 'react-css-modules'
+import autobind from 'autobind-decorator'
 
-//import './app.css'
+import styles from './app.cssmodule.scss'
 import api from '../api'
-import MapComponent from './Map.js'
+import Map from './Map.js'
 
-export default class AppComponent extends Component {
+@autobind
+class App extends Component {
   constructor(props) {
     super(props)
-    // This should be taken in by user in the future as a prop to a sub component, this POC
+
     this.state = {
       args : {
         table: "tri_facility",
@@ -20,10 +23,6 @@ export default class AppComponent extends Component {
       },
       data: ""
     }
-    // TODO: pull this out into a utility to bind functions
-    this._handleRequest = this._handleRequest.bind(this)
-    this._handleFormChange = this._handleFormChange.bind(this)
-    this._handleSubmit = this._handleSubmit.bind(this)
   }
 
   _handleRequest(err, resp, body){
@@ -67,23 +66,39 @@ export default class AppComponent extends Component {
     )
 
     return (
-      <div className="app-container">
-        <div className="map-half">
-          <MapComponent/>
-        </div>
-        <div className="data-half">
-          <form onSubmit={ this._handleSubmit }>
-            { labels }
-            <input type="submit" value="Submit" />
-          </form>
-          <div className="info">
-            {this.state.data}
+      <div className="app-component" styleName="app-component">
+
+        {/* Content Wrapper */}
+        <div styleName="content">
+          <div styleName="map-container">
+            <Map/>
           </div>
+          {/*
+
+          <div className="data-container">
+
+            <form onSubmit={ this._handleSubmit }>
+              { labels }
+              <input type="submit" value="Submit" />
+            </form>
+
+            <div className="info">
+              {this.state.data}
+            </div>
+
+          </div>
+          */}
         </div>
+
+        {/* Footer */}
+        <div styleName="footer" />
       </div>
     )
   }
 }
 
-AppComponent.propTypes = {
-};
+App.displayName = 'App'
+App.propTypes = {}
+App.defaultProps = {}
+
+export default cssmodules(App, styles)

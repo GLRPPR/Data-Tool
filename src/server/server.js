@@ -15,11 +15,8 @@ var enviroApiUrl = "https://iaspub.epa.gov/enviro"
 // Envirofacts API
 app.get('*', function (req, res) {
   var url = enviroApiUrl + req.originalUrl
-  //console.log("ENVIRO API URL " + url)
+  console.log(url)
   request(url, function (error, response, body) {
-    // TODO: handle bad requests
-    console.log('error:', error);
-    console.log('statusCode:', response && response.statusCode);
     res.send(body)
   });
 })
