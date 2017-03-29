@@ -2,15 +2,15 @@ import React, { Component, PropTypes } from 'react'
 import { isLoaded, bootstrap, dojoRequire } from 'esri-loader'
 import cssmodules from 'react-css-modules'
 import styles from './map.cssmodule.scss'
-import autobind from 'autobind-decorator'
+import autoBind from 'react-autobind'
 import Draggable, {DraggableCore} from 'react-draggable';
 
 import Legend from './legend/Legend'
 
-@autobind
 class Map extends Component {
   constructor(props) {
     super(props);
+    autoBind(this)
   }
 
   createMap() {
@@ -73,8 +73,8 @@ class Map extends Component {
   render() {
     const { actions, mapLegend, mapId } = this.props
     return (
-      <div styleName="map-component">
-        <div ref="mapView" styleName="map-component"></div>
+      <div styleName="map-area">
+        <div ref="mapView" styleName="map-area"></div>
         <Draggable
           zIndex={100} >
           <div styleName="legend-container">
@@ -87,6 +87,12 @@ class Map extends Component {
               scales={mapLegend.scales}
               views={mapLegend.views}
               />
+          </div>
+        </Draggable>
+        <Draggable
+          zIndex={100} >
+          <div styleName="legend-container">
+            Here is some stuff
           </div>
         </Draggable>
     </div>

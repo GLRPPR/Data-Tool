@@ -48,7 +48,7 @@ export default {
   legendCheckbox: {
     cursor: 'pointer',
     marginRight: 8,
-    color: '#EF5350'
+    color: '#D3D3D3'
   },
   legendCheckboxSelected: {
     cursor: 'pointer',

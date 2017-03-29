@@ -1,15 +1,15 @@
 import React, {PureComponent} from 'react';
 import { connect } from 'react-redux';
-import autobind from 'autobind-decorator'
 import cssmodules from 'react-css-modules';
+import autoBind from 'react-autobind'
 
 //import styles from './legend.cssmodule.scss';
 import styles from './legendInlineStyles.js';
 
-@autobind
 class Legend extends PureComponent {
   constructor(props) {
     super(props)
+    autoBind(this)
   }
 
   _initialise() {
@@ -93,7 +93,7 @@ class Legend extends PureComponent {
           <span
             style={item.visible ? styles.legendCheckboxSelected : styles.legendCheckbox}
             onClick={() => toggleNodeVisible(item.id, mapId)}
-            className={item.visible ? 'esri-icon-radio-checked' : 'esri-icon-radio-unchecked'}
+            className={item.visible ? 'esri-icon-visible' : 'esri-icon-non-visible'}
           />
           <label
             style={styles.legendCheckboxLabel}
@@ -158,7 +158,7 @@ class Legend extends PureComponent {
         <span
           style={item.visible ? styles.legendCheckboxSelected : styles.legendCheckbox}
           onClick={() => toggleNodeVisible(item.id, mapId)}
-          className={item.visible ? 'esri-icon-radio-checked' : 'esri-icon-radio-unchecked'}
+          className={item.visible ? 'esri-icon-visible' : 'esri-icon-non-visible'}
         />
         <label style={styles.legendCheckboxLabel} onClick={() => toggleNodeVisible(item.id, mapId)}>
           {item.layerName}

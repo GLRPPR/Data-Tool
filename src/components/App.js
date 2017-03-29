@@ -1,16 +1,17 @@
 import React, {Component, PropTypes} from 'react'
 import extend from 'xtend'
+import autoBind from 'react-autobind'
 import cssmodules from 'react-css-modules'
-import autobind from 'autobind-decorator'
 
 import styles from './app.cssmodule.scss'
 import api from '../api'
 import Map from './Map.js'
+import Navbar from './Navbar.js'
 
-@autobind
 class App extends Component {
   constructor(props) {
     super(props)
+    autoBind(this)
 
     this.state = {
       args : {
@@ -69,7 +70,7 @@ class App extends Component {
 
     return (
       <div className="app-component" styleName="app-component">
-
+        {/*<Navbar/>*/}
         {/* Content Wrapper */}
         <div styleName="content">
           <div styleName="map-container">
@@ -97,7 +98,7 @@ class App extends Component {
         </div>
 
         {/* Footer */}
-        <div styleName="footer" />
+        <div styleName="footer"> This is a footer </div>
       </div>
     )
   }
