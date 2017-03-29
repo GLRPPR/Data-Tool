@@ -10,13 +10,29 @@ import React, {
 } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import '../actions/';
-import Main from '../components/App';
+import {
+  setInitialLegend,
+  reverseLayerOrder,
+  showLayersNotVisibleForScale,
+  toggleExpanded,
+  toggleNodeExpanded,
+  toggleNodeVisible,
+  toggleShowSettings,
+  fetchLegend,
+  updateBaseMap
+} from '../actions/';
+import AppComponent from '../components/App';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const {actions, newtest} = this.props;
-    return <Main actions={actions} newtest={newtest}/>;
+    const {actions, mapLegend, initLegend, map} = this.props;
+    return (
+      <AppComponent
+        actions={actions}
+        initLegend={initLegend}
+        mapLegend={mapLegend}
+        map={map}/>
+    );
   }
 }
 /* Populated by react-webpack-redux:reducer
@@ -25,18 +41,41 @@ class App extends Component {
  *       adjust it here.
  */
 App.propTypes = {
-  actions: PropTypes.shape({}),
-  newtest: PropTypes.shape({})
+  actions: PropTypes.shape({
+    setInitialLegend: PropTypes.func.isRequired,
+    reverseLayerOrder: PropTypes.func.isRequired,
+    showLayersNotVisibleForScale: PropTypes.func.isRequired,
+    toggleExpanded: PropTypes.func.isRequired,
+    toggleNodeExpanded: PropTypes.func.isRequired,
+    toggleNodeVisible: PropTypes.func.isRequired,
+    toggleShowSettings: PropTypes.func.isRequired,
+    fetchLegend: PropTypes.func.isRequired,
+    updateBaseMap: PropTypes.func.isRequired
+  }),
+  map: PropTypes.shape({})
 };
 function mapStateToProps(state) {
   // eslint-disable-line no-unused-vars
   /* Populated by react-webpack-redux:reducer */
-  const props = { newtest: state.newtest };
+  const props = {
+    mapLegend: state.mapLegend,
+    map: state.map
+  };
   return props;
 }
 function mapDispatchToProps(dispatch) {
   /* Populated by react-webpack-redux:action */
-  const actions = {};
+  const actions = {
+    setInitialLegend,
+    reverseLayerOrder,
+    showLayersNotVisibleForScale,
+    toggleExpanded,
+    toggleNodeExpanded,
+    toggleNodeVisible,
+    toggleShowSettings,
+    fetchLegend,
+    updateBaseMap
+  };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
 }

@@ -1,0 +1,38 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.app-component {
+	display: flex;
+	> * {
+		flex: 0 0 auto;
+	}
+
+  flex-direction: column;
+
+  height:100%;
+  width:100%;
+
+}
+
+.footer {
+	height: 5%;
+  background-color: grey;
+}
+
+.content {
+	display: flex;
+	> * {
+		flex: 0 0 auto;
+	}
+
+  flex: 1;
+}
+
+.map-container {
+  min-width: 100%;
+}
