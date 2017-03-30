@@ -1,14 +1,13 @@
 .map-area {
-  position: absolute;
-  left: 0;
-  min-width: 100%;
-  min-height: 95%;
-  margin: 0 auto;
+  height: 95%;
 }
 
 .legend-container {
   float: right;
-  top: 5%;
+  position: fixed;
+  margin: 10px;
+  top: 0;
+  right: 0;
   background-color: white;
   opacity: .8;
 }

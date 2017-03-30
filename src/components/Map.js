@@ -4,17 +4,25 @@ import cssmodules from 'react-css-modules'
 import styles from './map.cssmodule.scss'
 import autoBind from 'react-autobind'
 import Draggable, {DraggableCore} from 'react-draggable';
+import equal from 'deep-equal';
 
 import Legend from './legend/Legend'
+import utils from '../utils'
+import SearchUtility from './SearchUtility'
 
 class Map extends Component {
   constructor(props) {
     super(props);
     autoBind(this)
+
+    this.state = {
+      map: undefined,
+      view: undefined
+    }
   }
 
   createMap() {
-    const { mapId, actions } = this.props;
+    const { mapId, actions } = this.props
     dojoRequire(
       [
         "esri/layers/FeatureLayer",
@@ -29,6 +37,7 @@ class Map extends Component {
 
       const lakesCounties = new FeatureLayer({
         url: "http://data.isgs.illinois.edu/arcgis/rest/services/Projects/Counties/MapServer/0",
+        visible: false,
         type: "feature"
       })
 
@@ -51,6 +60,8 @@ class Map extends Component {
         map: map
       })
 
+      this.setState({map, view})
+
       actions.setInitialLegend(view, mapId);
     })
   }
@@ -70,11 +81,26 @@ class Map extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // Also verify the map loaded correctly
+    if(!(equal(
+      prevProps.data.currentData,
+      this.props.data.currentData))
+    && typeof this.props.data.currentData != 'undefined') {
+        utils.createLayerFromCurrentData(
+          this.state.map,
+          this.state.view,
+          this.props.data.currentData
+        )
+      }
+  }
+
   render() {
-    const { actions, mapLegend, mapId } = this.props
+    const { actions, mapLegend, mapId, data } = this.props
+    const { map, view } = this.state
     return (
       <div styleName="map-area">
-        <div ref="mapView" styleName="map-area"></div>
+        <div ref="mapView" style={{height:'100%'}}></div>
         <Draggable
           zIndex={100} >
           <div styleName="legend-container">
@@ -86,13 +112,15 @@ class Map extends Component {
               options={mapLegend.options}
               scales={mapLegend.scales}
               views={mapLegend.views}
-              />
+            />
           </div>
         </Draggable>
         <Draggable
           zIndex={100} >
           <div styleName="legend-container">
-            Here is some stuff
+            <SearchUtility
+              actions={actions}
+            />
           </div>
         </Draggable>
     </div>

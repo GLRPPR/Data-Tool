@@ -11,9 +11,7 @@ html, body {
 	> * {
 		flex: 0 0 auto;
 	}
-
   flex-direction: column;
-
   height:100%;
   width:100%;
 
@@ -24,15 +22,10 @@ html, body {
   background-color: grey;
 }
 
-.content {
-	display: flex;
-	> * {
-		flex: 0 0 auto;
-	}
-
-  flex: 1;
-}
-
-.map-container {
-  min-width: 100%;
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
 }
