@@ -19,19 +19,22 @@ import {
   toggleNodeVisible,
   toggleShowSettings,
   fetchLegend,
-  updateBaseMap
+  updateBaseMap,
+  addData,
+  addLayerFromCurrentData
 } from '../actions/';
 import AppComponent from '../components/App';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const {actions, mapLegend, initLegend, map} = this.props;
+    const {actions, mapLegend, initLegend, map, data} = this.props;
     return (
       <AppComponent
         actions={actions}
         initLegend={initLegend}
         mapLegend={mapLegend}
-        map={map}/>
+        map={map}
+        data={data}/>
     );
   }
 }
@@ -50,16 +53,20 @@ App.propTypes = {
     toggleNodeVisible: PropTypes.func.isRequired,
     toggleShowSettings: PropTypes.func.isRequired,
     fetchLegend: PropTypes.func.isRequired,
-    updateBaseMap: PropTypes.func.isRequired
+    updateBaseMap: PropTypes.func.isRequired,
+    addData: PropTypes.func.isRequired,
+    addLayerFromCurrentData: PropTypes.func.isRequired
   }),
-  map: PropTypes.shape({})
+  map: PropTypes.shape({}),
+  data: PropTypes.shape({})
 };
 function mapStateToProps(state) {
   // eslint-disable-line no-unused-vars
   /* Populated by react-webpack-redux:reducer */
   const props = {
     mapLegend: state.mapLegend,
-    map: state.map
+    map: state.map,
+    data: state.data
   };
   return props;
 }
@@ -74,7 +81,9 @@ function mapDispatchToProps(dispatch) {
     toggleNodeVisible,
     toggleShowSettings,
     fetchLegend,
-    updateBaseMap
+    updateBaseMap,
+    addData,
+    addLayerFromCurrentData
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

@@ -32,5 +32,8 @@ bower_components/
 # Dist folder
 dist/
 
+# Mongodb files
+data/
+
 # IDE/Editor data
 .idea/
