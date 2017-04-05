@@ -60,7 +60,7 @@ class SearchUtility extends Component {
             type="text"
             value={this.state.value}
             onChange={this._handleChange.bind(this)}
-            placeholder="FIPS Code"
+            placeholder="N/A"
             />
         </label>
         <input type="submit" value="Submit" />

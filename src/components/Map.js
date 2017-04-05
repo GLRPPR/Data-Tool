@@ -101,7 +101,7 @@ class Map extends Component {
     return (
       <div styleName="map-area">
         <div ref="mapView" style={{height:'100%'}}></div>
-        <Draggable
+        {false && <Draggable
           zIndex={100} >
           <div styleName="legend-container">
             <Legend
@@ -115,6 +115,7 @@ class Map extends Component {
             />
           </div>
         </Draggable>
+        }
         <Draggable
           zIndex={100} >
           <div styleName="legend-container">
