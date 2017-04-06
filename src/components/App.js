@@ -6,6 +6,7 @@ import {slide as Menu} from 'react-burger-menu'
 
 import styles from './app.cssmodule.scss'
 import Map from './Map.js'
+import DataGrid from './DataGrid.js'
 import burgerMenuStyles from './burgerMenuStyles.js'
 
 class App extends Component {
@@ -34,7 +35,11 @@ class App extends Component {
               mapLegend={mapLegend}
               data={data}
             />
-            <div styleName="footer"> This is a footer </div>
+            <DataGrid
+              actions={actions}
+              data={data}
+            />
+            {/*<div styleName="footer"> This is a footer </div>*/}
           </div>
         </main>
       </div>

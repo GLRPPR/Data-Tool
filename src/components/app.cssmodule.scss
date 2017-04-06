@@ -4,6 +4,9 @@ html, body {
   margin: 0;
   padding: 0;
   border: 0;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .app-component {
@@ -17,10 +20,10 @@ html, body {
 
 }
 
-.footer {
-	height: 5%;
-  background-color: grey;
-}
+//.footer {
+//	height: 5%;
+//  background-color: grey;
+//}
 
 .bm-burger-button {
   position: fixed;
