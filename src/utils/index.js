@@ -1,5 +1,26 @@
 import { isLoaded, bootstrap, dojoRequire } from 'esri-loader'
 
+
+function convertDMS(dmsseq) {
+
+}
+
+function createGeometry(val) {
+  if (typeof val.PREF_LONGITUDE != 'undefined'
+    && typeof val.PREF_LATITUDE != 'undefined'){
+    return new Point({
+      x: val.PREF_LONGITUDE * -1,
+      y: val.PREF_LATITUDE
+    })
+  }
+  else {
+    return new Point({
+      x: convertDMS(val.FAC_LONGITUDE)
+      y: convertDMS(val.FAC_LATITUDE)
+    })
+  }
+}
+
 exports.createLayerFromCurrentData = function (
   map, view, currentData
 ) {
@@ -36,10 +57,7 @@ exports.createLayerFromCurrentData = function (
 
       const graphics = currentData.map((val, idx, arr) => {
         return {
-          geometry: new Point({
-            x: val.PREF_LONGITUDE * -1, 
-            y: val.PREF_LATITUDE
-          }),
+          geometry: createGeometry(val),
           attributes: { ObjectID: idx }
         };
       })
