@@ -82,15 +82,14 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // Also verify the map loaded correctly
-    if(!(equal(
-      prevProps.data.currentData,
-      this.props.data.currentData))
-    && typeof this.props.data.currentData != 'undefined') {
+    const prevData = prevProps.data.currentData
+    const {currentData} = this.props.data
+    if (typeof currentData != 'undefined'
+        && currentData._uuid != prevData._uuid) {
         utils.createLayerFromCurrentData(
           this.state.map,
           this.state.view,
-          this.props.data.currentData
+          currentData.features
         )
       }
   }
