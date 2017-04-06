@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import cssmodules from 'react-css-modules';
 import extend from 'xtend'
 import autoBind from 'react-autobind'
+import uuid from 'uuid'
 
 import styles from './searchutility.cssmodule.scss';
 import api from '../api'
