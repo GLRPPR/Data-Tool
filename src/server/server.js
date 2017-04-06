@@ -34,8 +34,18 @@ app.use(function(req, res, next) {
 // keep this code cleaner
 
 // REST Endpoints
+// Get all TRI_FACILITY'S
 app.get('/tri_facility', (req, res) => {
   TriFacilityModel.find((err, threads) => {
+    res.send(threads)
+  })
+})
+
+// Get TRI_FACILITY by state
+app.get('/tri_facility/state/:state', (req, res) => {
+  TriFacilityModel.find({
+    STATE_ABBR: req.params.state
+  },(err, threads) => {
     res.send(threads)
   })
 })
