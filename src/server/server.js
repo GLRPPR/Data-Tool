@@ -50,6 +50,15 @@ app.get('/tri_facility/state/:state', (req, res) => {
   })
 })
 
+// get tri_facility by FACILITY_NAME
+app.get('/tri_facility/facilityname/:facilityname',(req,res)=>{
+TriFacilityModel.find({
+	FACILITY_NAME: req.params.facilityname
+	},(err, threads)=>{
+	res.send(threads)
+	})
+})
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
