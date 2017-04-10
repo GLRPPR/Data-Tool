@@ -15,6 +15,7 @@
     "server": "babel-node --presets es2015 src/server/server.js",
     "scraper": "babel-node --presets es2015 src/server/data-scraper/scraper.js",
     "start": "npm run serve:dev",
+    "database": "mongod --dbpath=./data",
     "test": "cross-env NODE_ENV=test karma start",
     "test:watch": "cross-env NODE_ENV=test karma start --autoWatch=true --singleRun=false --reporters=mocha,coverage"
   },
