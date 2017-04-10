@@ -5,6 +5,8 @@ import ReactDataGrid from 'react-data-grid'
 import autoBind from 'react-autobind'
 import changeCase from 'change-case'
 
+import CONSTANTS from '../utils/constants'
+
 class DataGrid extends Component {
   constructor(props) {
     super(props)
@@ -31,12 +33,15 @@ class DataGrid extends Component {
     const newColumns = Object.keys(
       nextData.features[0]).map(
           (curVal, idx, arr) => {
-            return {
-              key: curVal,
-              name: changeCase.titleCase(curVal),
-              resizable: true
+            if(CONSTANTS.TRI_FIELDS.indexOf(curVal) > -1){
+              return {
+                key: curVal,
+                name: changeCase.titleCase(curVal),
+                resizable: true
+              }
             }
-          })
+          }).filter((e) => {return e})
+
     this.state.columns = newColumns
   }
 

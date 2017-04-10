@@ -21,7 +21,7 @@ import {
   fetchLegend,
   updateBaseMap,
   addData,
-  addLayerFromCurrentData
+  addLayer
 } from '../actions/';
 import AppComponent from '../components/App';
 /* Populated by react-webpack-redux:reducer */
@@ -55,7 +55,7 @@ App.propTypes = {
     fetchLegend: PropTypes.func.isRequired,
     updateBaseMap: PropTypes.func.isRequired,
     addData: PropTypes.func.isRequired,
-    addLayerFromCurrentData: PropTypes.func.isRequired
+    addLayer: PropTypes.func.isRequired
   }),
   map: PropTypes.shape({}),
   data: PropTypes.shape({})
@@ -83,7 +83,7 @@ function mapDispatchToProps(dispatch) {
     fetchLegend,
     updateBaseMap,
     addData,
-    addLayerFromCurrentData
+    addLayer
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

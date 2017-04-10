@@ -1,11 +1,15 @@
 import { isLoaded, bootstrap, dojoRequire } from 'esri-loader'
 
 
-function convertDMS(dmsseq) {
-
+function convertDMS(dmsSeq) {
+  let dmsString = String(dmsSeq)
+  const degrees = Number(dmsString.slice(1).slice(-2))
+  const minutes = Number(dmsString.slice(1).slice(-2)) / 60
+  const seconds = Number(dmsString) / 3600
+  return degrees + minutes + seconds
 }
 
-function createGeometry(val) {
+function createGeometry(val, Point) {
   if (typeof val.PREF_LONGITUDE != 'undefined'
     && typeof val.PREF_LATITUDE != 'undefined'){
     return new Point({
@@ -15,14 +19,14 @@ function createGeometry(val) {
   }
   else {
     return new Point({
-      x: convertDMS(val.FAC_LONGITUDE)
+      x: convertDMS(val.FAC_LONGITUDE),
       y: convertDMS(val.FAC_LATITUDE)
     })
   }
 }
 
 exports.createLayerFromCurrentData = function (
-  map, view, currentData
+  currentData, callback
 ) {
     dojoRequire([
       "esri/layers/FeatureLayer",
@@ -35,8 +39,6 @@ exports.createLayerFromCurrentData = function (
       SimpleRenderer,
       SimpleMarkerSymbol,
     ) {
-
-      let lyr;
 
       var fields = [{
         name: "ObjectID",
@@ -57,7 +59,7 @@ exports.createLayerFromCurrentData = function (
 
       const graphics = currentData.map((val, idx, arr) => {
         return {
-          geometry: createGeometry(val),
+          geometry: createGeometry(val, Point),
           attributes: { ObjectID: idx }
         };
       })
@@ -72,13 +74,8 @@ exports.createLayerFromCurrentData = function (
         },
         geometryType: "point"
       })
-      console.log("Graphics: ")
-      console.log(graphics)
-      console.log("Layer: ")
-      console.log(layer)
 
-      map.add(layer)
-
+      callback(layer)
     }
   )
 }

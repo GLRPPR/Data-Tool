@@ -1,7 +1,7 @@
 import xhr from 'xhr';
 import extend from 'xtend';
 
-let uri = "http://localhost:3000/tri_facility"
+let uri = "http://localhost:3000/tri_facility/state/MN"
 
 const genXhrArgs = (args) => {
   return {

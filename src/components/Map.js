@@ -62,7 +62,7 @@ class Map extends Component {
 
       this.setState({map, view})
 
-      actions.setInitialLegend(view, mapId);
+      //actions.setInitialLegend(view, mapId);
     })
   }
 
@@ -82,16 +82,18 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { addLayer } = this.props.actions
     const prevData = prevProps.data.currentData
     const {currentData} = this.props.data
-    if (typeof currentData != 'undefined'
-        && currentData._uuid != prevData._uuid) {
-        utils.createLayerFromCurrentData(
-          this.state.map,
-          this.state.view,
-          currentData.features
-        )
-      }
+    
+    // Perhaps instead of always creating a layer, let user select, createLayer form the data-grid
+    //if (typeof currentData != 'undefined'
+    //    && currentData._uuid != prevData._uuid) {
+    //    utils.createLayerFromCurrentData(
+    //      currentData.features,
+    //      (layer) => { addLayer(layer) }
+    //    )
+    //  }
   }
 
   render() {
