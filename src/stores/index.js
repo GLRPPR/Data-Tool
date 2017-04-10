@@ -9,7 +9,7 @@ function reduxStore(initialState) {
     compose(
       applyMiddleware(thunk),
       // Note you may need to comment this out if you get error about apply
-      window.devToolsExtension && window.devToolsExtension()
+      window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   );
 
