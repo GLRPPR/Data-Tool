@@ -1,9 +1,14 @@
 import React, {Component, PropTypes} from 'react'
 import cssmodules from 'react-css-modules'
-import styles from './datagrid.cssmodule.scss'
 import ReactDataGrid from 'react-data-grid'
 import autoBind from 'react-autobind'
 import changeCase from 'change-case'
+import _ from 'lodash'
+
+import CONSTANTS from '../utils/constants'
+import styles from './datagrid.cssmodule.scss'
+
+const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
 class DataGrid extends Component {
   constructor(props) {
@@ -12,7 +17,9 @@ class DataGrid extends Component {
 
     this.state = {
       columns: [],
-      rows: []
+      rows: [],
+      originalRows: [],
+      filters: {}
     }
   }
 
@@ -28,21 +35,83 @@ class DataGrid extends Component {
 
   _updateDataTable(nextProps) {
     const nextData = nextProps.data.currentData
-    const newColumns = Object.keys(
-      nextData.features[0]).map(
-          (curVal, idx, arr) => {
-            return {
-              key: curVal,
-              name: changeCase.titleCase(curVal),
-              resizable: true
-            }
+    const newColumns = _.map(
+      Object.keys(nextData.features[0]),
+      (featureKey) => {
+        if(CONSTANTS.TRI_FIELDS.indexOf(featureKey) > -1){
+          return {
+            key: featureKey,
+            name: changeCase.titleCase(featureKey),
+            resizable: true,
+            sortable: true,
+            filterable: true
+          }
+        }
+      }).filter((e) => {return e})
+
+    const colIds = _.map(newColumns, (col) => {
+      return col.key
+    })
+
+    const newRows = _.map(
+      nextData.features,
+      (feature) => {
+        const colVals = _.zipObject(
+          colIds,
+          _.map(
+            colIds, (id) => {
+              return feature[id]
           })
+        )
+        return colVals
+      }
+    )
+
     this.state.columns = newColumns
+    this.state.originalRows = newRows
+    this.state.rows = newRows
   }
 
-  _rowGetter(i) {
-    const {rows} = this.state
-    return rows[i];
+  _handleGridSort(sortColumn, sortDirection) {
+    const {rows, operableRows} = this.state
+    const comparer = (a, b) => {
+      if (sortDirection === 'ASC') {
+        return (a[sortColumn] > b[sortColumn]) ? 1 : -1;
+      } else if (sortDirection === 'DESC') {
+        return (a[sortColumn] < b[sortColumn]) ? 1 : -1;
+      }
+    };
+
+    const sortedRows = sortDirection === 'NONE' ? this.state.originalRows.slice(0) : this.state.rows.sort(comparer);
+
+    this.setState({ rows: sortedRows });
+  }
+
+  _handleFilterChange(filter) {
+    let newFilters = Object.assign({}, this.state.filters);
+    if (filter.filterTerm) {
+      newFilters[filter.column.key] = filter;
+    } else {
+      delete newFilters[filter.column.key];
+    }
+    this.setState({ filters: newFilters });
+  }
+
+  _onClearFilters() {
+    this.setState({filters: {} });
+  }
+
+  _getRows() {
+    return Selectors.getRows(this.state);
+  }
+
+  _getSize() {
+    return this._getRows().length;
+  }
+
+  _rowGetter(rowIdx) {
+    let rows = this._getRows();
+    return rows[rowIdx];
   }
 
   render() {
@@ -51,11 +120,19 @@ class DataGrid extends Component {
     return (
       <div className="datagrid-component" styleName="datagrid-component">
         <ReactDataGrid
+          onGridSort={this._handleGridSort.bind(this)}
           columns={columns}
           rowGetter={this._rowGetter.bind(this)}
-          rowsCount={rows.length}
+          enableCellSelect={true}
+          rowsCount={this._getSize()}
           minHeight={500}
         />
+      {/*
+          toolbar={<Toolbar enableFilter={true}/>}
+          onAddFilter={this._handleFilterChange.bind(this)}
+          onClearFilters={this._onClearFilters.bind(this)}
+        />
+      */}
       </div>
     );
   }

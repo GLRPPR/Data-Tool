@@ -30,16 +30,6 @@ app.use(function(req, res, next) {
   })
 */
 
-// TODO: We should pull these routes out to their own modules to
-// keep this code cleaner
-
-// REST Endpoints
-// Get all TRI_FACILITY'S
-app.get('/tri_facility', (req, res) => {
-  TriFacilityModel.find((err, threads) => {
-    res.send(threads)
-  })
-})
 
 // Get TRI_FACILITY by state
 app.get('/tri_facility/state/:state', (req, res) => {

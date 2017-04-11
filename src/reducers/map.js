@@ -5,12 +5,14 @@
  */
 
 import {
-  UPDATE_BASE_MAP
+  UPDATE_BASE_MAP,
+  ADD_LAYER
 } from '../actions/const';
 import CONSTANTS from '../utils/constants'
 
 const initialState = {
-  baseMap: CONSTANTS.BASEMAPS.TOPO
+  baseMap: CONSTANTS.BASEMAPS.TOPO,
+  layers: []
 };
 
 function reducer(state = initialState, action) {
@@ -19,6 +21,12 @@ function reducer(state = initialState, action) {
     case UPDATE_BASE_MAP: {
       return Object.assign({}, state, {
         baseMap: payload.baseMap
+      });
+    }
+    case ADD_LAYER: {
+      let newLayers = state.layers
+      return Object.assign({}, state, {
+        layers: newLayers
       });
     }
     default: {

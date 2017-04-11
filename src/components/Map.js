@@ -17,7 +17,8 @@ class Map extends Component {
 
     this.state = {
       map: undefined,
-      view: undefined
+      view: undefined,
+      addedLayerUuids: []
     }
   }
 
@@ -35,34 +36,21 @@ class Map extends Component {
         Map,
         MapView) => {
 
-      const lakesCounties = new FeatureLayer({
-        url: "http://data.isgs.illinois.edu/arcgis/rest/services/Projects/Counties/MapServer/0",
-        visible: false,
-        type: "feature"
-      })
-
-      const usa = new MapImageLayer({
-        url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer",
-        visible: false,
-        type: "map-image"
-      });
-
       const map = new Map({
         basemap: this.props.baseMap,
-        layers: [
-          lakesCounties,
-          usa
-        ]
+        layers: []
       })
 
       const view = new MapView({
         container: this.refs.mapView,
+        center: [-83, 42],
+        zoom: 5,
         map: map
       })
 
       this.setState({map, view})
 
-      actions.setInitialLegend(view, mapId);
+      //actions.setInitialLegend(view, mapId);
     })
   }
 
@@ -82,14 +70,20 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const {addLayer} = this.props.actions
     const prevData = prevProps.data.currentData
     const {currentData} = this.props.data
+    const {layers} = this.props
+
+    // If there is new data in the data searched for
     if (typeof currentData != 'undefined'
         && currentData._uuid != prevData._uuid) {
         utils.createLayerFromCurrentData(
+          currentData.features,
           this.state.map,
-          this.state.view,
-          currentData.features
+          (layer) => {
+            addLayer(layer)
+          }
         )
       }
   }

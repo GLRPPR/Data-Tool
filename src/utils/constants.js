@@ -17,5 +17,14 @@ export default {
     "STREETS_NIGHT_VECTOR": "streets-night-vector",
     "STREETS_RELIEF_VECTOR": "streets-relief-vector",
     "STREETS_NAVIGATION_VECTOR": "streets-navigation-vector"
-  }
+  },
+  TRI_FIELDS: [
+    "TRI_FACILITY_ID",
+    "FACILITY_NAME",
+    "STREET_ADDRESS",
+    "CITY_NAME",
+    "COUNTY_NAME",
+    "STATE_ABBR",
+    "ZIP_CODE"
+  ]
 }
