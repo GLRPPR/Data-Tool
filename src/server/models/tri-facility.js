@@ -1,11 +1,15 @@
 import mongoose, {Schema} from 'mongoose'
+import mongoosastic from 'mongoosastic'
 
 const triFacilitySchema = new Schema({
   "TRI_FACILITY_ID" : {
     type: String,
     index: true
   },
-  "FACILITY_NAME" : String,
+  "FACILITY_NAME" : {
+    type: String,
+    es_indexed: true
+  },
   "STREET_ADDRESS" : String,
   "CITY_NAME" : String,
   "COUNTY_NAME" : String,
@@ -44,5 +48,7 @@ const triFacilitySchema = new Schema({
   "STANDARDIZED_PARENT_COMPANY" : String,
   "ASGN_PUBLIC_PHONE_EXT" : String
 })
+
+triFacilitySchema.plugin(mongoosastic)
 
 module.exports = mongoose.model('TRI_FACILITY', triFacilitySchema);
