@@ -24,6 +24,7 @@ import {
   addLayer
 } from '../actions/';
 import AppComponent from '../components/App';
+import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {

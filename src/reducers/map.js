@@ -25,8 +25,6 @@ function reducer(state = initialState, action) {
     }
     case ADD_LAYER: {
       let newLayers = state.layers
-      console.log(newLayers)
-      newLayers.push(payload.layer)
       return Object.assign({}, state, {
         layers: newLayers
       });

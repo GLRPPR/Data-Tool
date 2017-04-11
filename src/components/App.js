@@ -9,6 +9,7 @@ import Map from './Map.js'
 import DataGrid from './DataGrid.js'
 import burgerMenuStyles from './burgerMenuStyles.js'
 
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -31,6 +32,7 @@ class App extends Component {
             <Map
               mapId="Main Map"
               baseMap={map.baseMap}
+              layers={map.layers}
               actions={actions}
               mapLegend={mapLegend}
               data={data}

@@ -1,5 +1,5 @@
 import { isLoaded, bootstrap, dojoRequire } from 'esri-loader'
-
+import uuid from 'uuid'
 
 function convertDMS(dmsSeq) {
   let dmsString = String(dmsSeq)
@@ -26,7 +26,7 @@ function createGeometry(val, Point) {
 }
 
 exports.createLayerFromCurrentData = function (
-  currentData, callback
+  currentData, map, callback
 ) {
     dojoRequire([
       "esri/layers/FeatureLayer",
@@ -72,9 +72,11 @@ exports.createLayerFromCurrentData = function (
         spatialReference: {
           wkid: 4326
         },
-        geometryType: "point"
+        geometryType: "point",
+        id: uuid.v1()
       })
 
+      map.add(layer)
       callback(layer)
     }
   )
