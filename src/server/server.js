@@ -55,11 +55,16 @@ app.get('/tri_facility/search/:term', (req, res) => {
       }
     },(err, threads) => {
       // TODO make this not break if u get nothing back
-      TriFacilityModel.find({
-      	FACILITY_NAME: threads.hits.hits[0]._source["FACILITY_NAME"]
-    	},(err, threads)=>{
-    	   res.send(threads)
-    	})
+      console.log(threads)
+
+      if (threads.hits.hits.length > 0 &&
+          threads.hits.hits[0]._source){
+        TriFacilityModel.find({
+        	FACILITY_NAME: threads.hits.hits[0]._source["FACILITY_NAME"]
+      	},(err, threads)=>{
+      	   res.send(threads)
+      	})
+      }
     })
   }
 })
