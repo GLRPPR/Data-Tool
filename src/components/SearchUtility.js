@@ -12,36 +12,25 @@ class SearchUtility extends Component {
     super(props)
     autoBind(this)
     this.state = {
-      args: {
-        table: "tri_facility",
-        column: "state_abbr",
-        operator: "=",
-        columnValue: "IL",
-        rows: "1:100",
-        outputFormat: 'JSON'
-      }
+      term: ""
     }
   }
 
   _handleChange(event) {
-    const newStateArgs = extend({}, this.state.args)
-    newStateArgs.columnValue = event.target.value
-    this.setState({args: newStateArgs});
+    this.setState({term: event.target.value});
   }
 
   _handleResponse(err, resp, body) {
     const {addData} = this.props.actions
     if (err) {
-      // TODO: handle retries, maybe incorporate with redux
       console.log("ERROR: error making request.")
     }
     addData(resp.body)
   }
 
   _sendRequest() {
-    const {args} = this.state
     api.request(
-      args,
+      this.state.term,
       this._handleResponse.bind(this)
     )
   }
@@ -51,8 +40,6 @@ class SearchUtility extends Component {
     event.preventDefault();
   }
 
-  // These are temporary, should be user input
-
   render() {
     return (
       <form onSubmit={this._handleSubmit.bind(this)}>
@@ -61,7 +48,7 @@ class SearchUtility extends Component {
             type="text"
             value={this.state.value}
             onChange={this._handleChange.bind(this)}
-            placeholder="N/A"
+            placeholder="Search"
             />
         </label>
         <input type="submit" value="Submit" />

@@ -1,5 +1,9 @@
 import { isLoaded, bootstrap, dojoRequire } from 'esri-loader'
 import uuid from 'uuid'
+import _ from 'lodash'
+import changeCase from 'change-case'
+
+import CONSTANTS from './constants'
 
 function convertDMS(dmsSeq) {
   let dmsString = String(dmsSeq)
@@ -81,3 +85,25 @@ exports.createLayerFromCurrentData = function (
     }
   )
 }
+
+exports.searchingState = function (term) {
+  if(Object.keys(CONSTANTS.STATES).indexOf(term.toUpperCase()) > -1){
+    return true
+  }
+  if(Object.values(CONSTANTS.STATES).indexOf(
+    changeCase.titleCase(term))> -1){
+    return true
+  }
+  return false
+};
+
+exports.getStateAbbr = function (term) {
+  if(Object.keys(CONSTANTS.STATES).indexOf(term.toUpperCase()) > -1){
+    return term.toUpperCase()
+  }
+  if(Object.values(CONSTANTS.STATES).indexOf(
+    changeCase.titleCase(term))> -1){
+    return _.invert(CONSTANTS.STATES)[changeCase.titleCase(term)]
+  }
+  return "ERR"
+};

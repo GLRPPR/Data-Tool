@@ -1,19 +1,16 @@
 import xhr from 'xhr';
 import extend from 'xtend';
 
-let uri = "http://localhost:3000/tri_facility/state/MN"
-
-const genXhrArgs = (args) => {
+const genXhrArgs = (term) => {
   return {
     method: 'GET',
-    uri: uri,
+    uri: `http://localhost:3000/tri_facility/search/${term}`,
     headers: {
       "Content-Type": "application/json"
     }
   }
 }
 
-exports.request = function (args, callback) {
-  // Make HTTP request to envirofacts api
-  xhr(genXhrArgs(args), callback)
+exports.request = function (term, callback) {
+  xhr(genXhrArgs(term), callback)
 }
