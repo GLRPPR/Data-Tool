@@ -10,7 +10,7 @@ function getUrl(beg, end, state){
   return `https://iaspub.epa.gov/enviro/efservice/tri_facility/state_abbr/${state}/rows/${beg}:${end}/JSON`
 }
 
-mongoose.connect('mongodb://localhost/testnew', function(err) {
+mongoose.connect('mongodb://localhost/data', function(err) {
   if (err) throw err;
 
   let statesToParse = ["IL", "IN", "MI", "MN", "OH", "WI"]
