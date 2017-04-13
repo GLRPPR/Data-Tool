@@ -6,6 +6,7 @@ import {slide as Menu} from 'react-burger-menu'
 
 import styles from './app.cssmodule.scss'
 import Map from './Map.js'
+import Modal from './Modal.js'
 import DataGrid from './DataGrid.js'
 import burgerMenuStyles from './burgerMenuStyles.js'
 
@@ -29,6 +30,9 @@ class App extends Component {
         </Menu>
         <main id="page-wrap" style={{height:'100%'}}>
           <div styleName="app-component">
+            <Modal
+              actions={actions}
+            />
             <Map
               mapId="Main Map"
               baseMap={map.baseMap}

@@ -36,23 +36,38 @@ class SearchUtility extends Component {
   }
 
   _handleSubmit(event) {
+    const {onSubmit} = this.props
     this._sendRequest()
     event.preventDefault();
+    onSubmit()
   }
 
   render() {
     return (
-      <form onSubmit={this._handleSubmit.bind(this)}>
-        <label>
+      <div
+        className="searchutility-component" styleName="searchutility-component"
+      >
+        <form onSubmit={this._handleSubmit.bind(this)}>
           <input
             type="text"
             value={this.state.value}
             onChange={this._handleChange.bind(this)}
-            placeholder="Search"
-            />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+            placeholder="Search"/>
+          <span
+            id="search-button"
+            onClick={this._handleSubmit.bind(this)}
+            className="esri-icon-search"
+            style={{
+              "position": "relative",
+              "z-index": 1,
+              "left": "-20px",
+              "top": "1px",
+              "color": "#7B7B7B",
+              "cursor": "pointer",
+              "width": 0
+            }}/>
+        </form>
+      </div>
     );
   }
 }

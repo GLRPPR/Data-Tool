@@ -11,7 +11,7 @@ import {
 import CONSTANTS from '../utils/constants'
 
 const initialState = {
-  baseMap: CONSTANTS.BASEMAPS.TOPO,
+  baseMap: CONSTANTS.BASEMAPS.GRAY,
   layers: []
 };
 
