@@ -72,6 +72,7 @@
   "dependencies": {
     "async": "^2.3.0",
     "bootstrap": "^3.3.7",
+    "boron": "^0.2.3",
     "change-case": "^3.0.1",
     "cross-env": "^3.1.0",
     "deep-equal": "^1.0.1",

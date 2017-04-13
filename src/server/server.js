@@ -54,9 +54,6 @@ app.get('/tri_facility/search/:term', (req, res) => {
         query: req.params.term
       }
     },(err, threads) => {
-      // TODO make this not break if u get nothing back
-      console.log(threads)
-
       if (threads.hits.hits.length > 0 &&
           threads.hits.hits[0]._source){
         TriFacilityModel.find({
