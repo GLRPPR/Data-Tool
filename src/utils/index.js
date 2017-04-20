@@ -35,7 +35,7 @@ function createAttributes(val) {
 }
 
 exports.createLayerFromCurrentData = function (
-  currentData, map, callback
+  currentData, map
 ) {
     dojoRequire([
       "esri/layers/FeatureLayer",
@@ -91,7 +91,6 @@ exports.createLayerFromCurrentData = function (
       })
 
       map.add(layer)
-      callback(layer)
     }
   )
 }

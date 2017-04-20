@@ -21,7 +21,6 @@ import {
   fetchLegend,
   updateBaseMap,
   addData,
-  addLayer
 } from '../actions/';
 import AppComponent from '../components/App';
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
@@ -56,7 +55,6 @@ App.propTypes = {
     fetchLegend: PropTypes.func.isRequired,
     updateBaseMap: PropTypes.func.isRequired,
     addData: PropTypes.func.isRequired,
-    addLayer: PropTypes.func.isRequired
   }),
   map: PropTypes.shape({}),
   data: PropTypes.shape({})
