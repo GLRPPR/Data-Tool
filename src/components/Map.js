@@ -19,7 +19,6 @@ class Map extends Component {
     this.state = {
       map: undefined,
       view: undefined,
-      addedLayerUuids: []
     }
   }
 
@@ -51,18 +50,6 @@ class Map extends Component {
 
       this.setState({map, view})
 
-      view.on("click", function(event){
-        let { screenPoint } = event
-        view.hitTest(screenPoint)
-          .then((response) => {
-             // do something with the result graphic
-             let graphic = response.results[0].graphic;
-             console.log("HIT A GRAPHIC")
-             console.log(graphic)
-          });
-      });
-
-
       //actions.setInitialLegend(view, mapId);
     })
   }
@@ -93,10 +80,7 @@ class Map extends Component {
         && currentData._uuid != prevData._uuid) {
         utils.createLayerFromCurrentData(
           currentData.features,
-          this.state.map,
-          (layer) => {
-            addLayer(layer)
-          }
+          this.state.map
         )
       }
   }
