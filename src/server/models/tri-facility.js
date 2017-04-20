@@ -12,7 +12,10 @@ const triFacilitySchema = new Schema({
   },
   "STREET_ADDRESS" : String,
   "CITY_NAME" : String,
-  "COUNTY_NAME" : String,
+  "COUNTY_NAME" : {
+    type: String,
+    es_indexed: true
+  },
   "STATE_COUNTY_FIPS_CODE" : Schema.Types.Mixed,
   "STATE_ABBR" : String,
   "ZIP_CODE" : Schema.Types.Mixed,

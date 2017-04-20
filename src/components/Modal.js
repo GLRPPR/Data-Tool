@@ -11,8 +11,8 @@ const modalStyle = {
     height: '300px',
     background: 'white',
     display: 'flex',
-    "justify-content": 'center',
-    "align-items": 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
 };
 
 class Modal extends React.Component {
@@ -29,10 +29,6 @@ class Modal extends React.Component {
       this.refs.modal.hide();
     }
 
-    callback(event){
-      console.log(event);
-    }
-
     render() {
       const {actions} = this.props
       return (
@@ -40,8 +36,10 @@ class Modal extends React.Component {
           <BoronModal
             ref="modal"
             modalStyle={modalStyle}
-            keyboard={this.callback.bind(this)}
           >
+            <div>
+              Enter a State, or Facility, to get more information
+            </div>
             <SearchUtility
               actions={actions}
               onSubmit={() => {

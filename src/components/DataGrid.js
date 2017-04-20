@@ -4,6 +4,7 @@ import ReactDataGrid from 'react-data-grid'
 import autoBind from 'react-autobind'
 import changeCase from 'change-case'
 import _ from 'lodash'
+import extend from 'xtend'
 
 import CONSTANTS from '../utils/constants'
 import styles from './datagrid.cssmodule.scss'
@@ -97,6 +98,13 @@ class DataGrid extends Component {
     this.setState({ filters: newFilters });
   }
 
+  _onRowClick(rowIdx, row) {
+    let rows = this.state.rows.slice();
+    console.log(rows[rowIdx])
+    // HIGHLIGHT ON MAP
+    this.setState({ rows });
+  }
+
   _onClearFilters() {
     this.setState({filters: {} });
   }
@@ -125,14 +133,16 @@ class DataGrid extends Component {
           rowGetter={this._rowGetter.bind(this)}
           enableCellSelect={true}
           rowsCount={this._getSize()}
-          minHeight={500}
-        />
-      {/*
-          toolbar={<Toolbar enableFilter={true}/>}
+          minHeight={800}
+          onRowClick={this._onRowClick.bind(this)}
+          toolbar={
+            <Toolbar
+              enableFilter={true}
+            />
+          }
           onAddFilter={this._handleFilterChange.bind(this)}
           onClearFilters={this._onClearFilters.bind(this)}
         />
-      */}
       </div>
     );
   }

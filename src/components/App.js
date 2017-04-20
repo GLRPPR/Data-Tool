@@ -3,13 +3,14 @@ import extend from 'xtend'
 import autoBind from 'react-autobind'
 import cssmodules from 'react-css-modules'
 import {slide as Menu} from 'react-burger-menu'
+import SplitPane from 'react-split-pane'
 
 import styles from './app.cssmodule.scss'
 import Map from './Map.js'
 import Modal from './Modal.js'
 import DataGrid from './DataGrid.js'
 import burgerMenuStyles from './burgerMenuStyles.js'
-
+import sliderStyles from './styles/slider.scss'
 
 class App extends Component {
   constructor(props) {
@@ -30,21 +31,27 @@ class App extends Component {
         </Menu>
         <main id="page-wrap" style={{height:'100%'}}>
           <div styleName="app-component">
-            <Modal
-              actions={actions}
-            />
-            <Map
-              mapId="Main Map"
-              baseMap={map.baseMap}
-              layers={map.layers}
-              actions={actions}
-              mapLegend={mapLegend}
-              data={data}
-            />
-            <DataGrid
-              actions={actions}
-              data={data}
-            />
+            {/*
+              <Modal
+                actions={actions}
+              />
+            */}
+            <SplitPane
+              split="horizontal"
+              defaultSize={400}>
+              <Map
+                mapId="Main Map"
+                baseMap={map.baseMap}
+                layers={map.layers}
+                actions={actions}
+                mapLegend={mapLegend}
+                data={data}
+              />
+              <DataGrid
+                actions={actions}
+                data={data}
+              />
+            </SplitPane>
             {/*<div styleName="footer"> This is a footer </div>*/}
           </div>
         </main>
