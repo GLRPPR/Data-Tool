@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { isLoaded, bootstrap, dojoRequire } from 'esri-loader'
 import cssmodules from 'react-css-modules'
 import styles from './map.cssmodule.scss'
+import esriStyles from './esriStyles.scss'
 import autoBind from 'react-autobind'
 import Draggable, {DraggableCore} from 'react-draggable';
 import equal from 'deep-equal';
@@ -49,6 +50,18 @@ class Map extends Component {
       })
 
       this.setState({map, view})
+
+      view.on("click", function(event){
+        let { screenPoint } = event
+        view.hitTest(screenPoint)
+          .then((response) => {
+             // do something with the result graphic
+             let graphic = response.results[0].graphic;
+             console.log("HIT A GRAPHIC")
+             console.log(graphic)
+          });
+      });
+
 
       //actions.setInitialLegend(view, mapId);
     })

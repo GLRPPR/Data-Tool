@@ -39,6 +39,16 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/tri_facility/searchshow/:term', (req, res) => {
+    TriFacilityModel.search({
+      query_string: {
+        query: req.params.term
+      }
+    },(err, threads) => {
+  	   res.send(threads)
+    })
+})
+
 app.get('/tri_facility/search/:term', (req, res) => {
   if (utils.searchingState(req.params.term)){
     TriFacilityModel.find({

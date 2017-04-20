@@ -59,7 +59,7 @@ class SearchUtility extends Component {
             className="esri-icon-search"
             style={{
               "position": "relative",
-              "z-index": 1,
+              "zIndex": 1,
               "left": "-20px",
               "top": "1px",
               "color": "#7B7B7B",
@@ -74,6 +74,8 @@ class SearchUtility extends Component {
 
 SearchUtility.displayName = 'SearchUtility';
 SearchUtility.propTypes = {};
-SearchUtility.defaultProps = {};
+SearchUtility.defaultProps = {
+  onSubmit: () => {}
+};
 
 export default cssmodules(SearchUtility, styles);

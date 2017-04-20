@@ -2,6 +2,7 @@ import { isLoaded, bootstrap, dojoRequire } from 'esri-loader'
 import uuid from 'uuid'
 import _ from 'lodash'
 import changeCase from 'change-case'
+import extend from 'xtend'
 
 import CONSTANTS from './constants'
 
@@ -29,6 +30,10 @@ function createGeometry(val, Point) {
   }
 }
 
+function createAttributes(val) {
+  return extend(val, {ObjectID: uuid.v1()})
+}
+
 exports.createLayerFromCurrentData = function (
   currentData, map, callback
 ) {
@@ -44,13 +49,17 @@ exports.createLayerFromCurrentData = function (
       SimpleMarkerSymbol,
     ) {
 
-      var fields = [{
-        name: "ObjectID",
-        alias: "ObjectID",
-        type: "oid"
-      }]
+      console.log("PRINTING MAP")
+      console.log(map)
 
-      var triFacilityRenderer = new SimpleRenderer({
+      const fields = CONSTANTS.LAYER_FIELDS
+
+      const popupTemplate = {
+        title: "{FACILITY_NAME}",
+        content: CONSTANTS.POPUP_TEMPLATE_CONTENT
+      };
+
+      const triFacilityRenderer = new SimpleRenderer({
         symbol: new SimpleMarkerSymbol({
           size: 6,
           color: "black",
@@ -64,7 +73,7 @@ exports.createLayerFromCurrentData = function (
       const graphics = currentData.map((val, idx, arr) => {
         return {
           geometry: createGeometry(val, Point),
-          attributes: { ObjectID: idx }
+          attributes: createAttributes(val)
         };
       })
 
@@ -77,6 +86,7 @@ exports.createLayerFromCurrentData = function (
           wkid: 4326
         },
         geometryType: "point",
+        popupTemplate,
         id: uuid.v1()
       })
 

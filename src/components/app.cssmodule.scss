@@ -10,20 +10,9 @@ html, body {
 }
 
 .app-component {
-	display: flex;
-	> * {
-		flex: 0 0 auto;
-	}
-  flex-direction: column;
-  height:100%;
-  width:100%;
+  display: block;
 
 }
-
-//.footer {
-//	height: 5%;
-//  background-color: grey;
-//}
 
 .bm-burger-button {
   position: fixed;
