@@ -4,14 +4,18 @@
  * src/container/App.js accordingly.
  */
 
+import extend from 'xtend'
 import {
   UPDATE_BASE_MAP,
-  ADD_LAYER
+  HIGHLIGHT_FACILITY,
+  ADD_LAYER,
+  REMOVE_ALL_LAYERS
 } from '../actions/const';
 import CONSTANTS from '../utils/constants'
 
 const initialState = {
   baseMap: CONSTANTS.BASEMAPS.GRAY,
+  highlighted: "",
   layers: []
 };
 
@@ -23,10 +27,21 @@ function reducer(state = initialState, action) {
         baseMap: payload.baseMap
       });
     }
-    case ADD_LAYER: {
-      let newLayers = state.layers
+    case HIGHLIGHT_FACILITY: {
       return Object.assign({}, state, {
-        layers: newLayers
+        highlighted: payload.data
+      });
+    }
+    case ADD_LAYER: {
+      let {layers} = state
+      layers.push(payload.data)
+      return Object.assign({}, state, {layers});
+    }
+    case REMOVE_ALL_LAYERS: {
+      let {layers} = state
+      layers.push(payload.data)
+      return Object.assign({}, state, {
+        layers: []
       });
     }
     default: {

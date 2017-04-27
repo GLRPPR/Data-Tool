@@ -8,6 +8,7 @@ import extend from 'xtend'
 
 import CONSTANTS from '../utils/constants'
 import styles from './datagrid.cssmodule.scss'
+import utils from '../utils'
 
 const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
@@ -54,6 +55,7 @@ class DataGrid extends Component {
       return col.key
     })
 
+    // TODO unescape things here
     const newRows = _.map(
       nextData.features,
       (feature) => {
@@ -99,10 +101,14 @@ class DataGrid extends Component {
   }
 
   _onRowClick(rowIdx, row) {
+    const {
+      highlightFacility,
+      openDetailedMenu
+    } = this.props.actions
     let rows = this.state.rows.slice();
-    console.log(rows[rowIdx])
-    // HIGHLIGHT ON MAP
-    this.setState({ rows });
+    highlightFacility(rows[rowIdx])
+    // TODO add action here to add info to detailed menu
+    openDetailedMenu()
   }
 
   _onClearFilters() {
