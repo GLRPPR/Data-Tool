@@ -21,19 +21,26 @@ import {
   fetchLegend,
   updateBaseMap,
   addData,
+  highlightFacility,
+  addLayer,
+  removeLayer,
+  removeAllLayers,
+  openDetailedMenu,
+  closeDetailedMenu,
 } from '../actions/';
 import AppComponent from '../components/App';
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const {actions, mapLegend, initLegend, map, data} = this.props;
+    const {actions, mapLegend, initLegend, map, data, general} = this.props;
     return (
       <AppComponent
         actions={actions}
         initLegend={initLegend}
         mapLegend={mapLegend}
         map={map}
+        general={general}
         data={data}/>
     );
   }
@@ -55,6 +62,12 @@ App.propTypes = {
     fetchLegend: PropTypes.func.isRequired,
     updateBaseMap: PropTypes.func.isRequired,
     addData: PropTypes.func.isRequired,
+    addLayer: PropTypes.func.isRequired,
+    removeLayer: PropTypes.func.isRequired,
+    removeAllLayers: PropTypes.func.isRequired,
+    highlightFacility: PropTypes.func.isRequired,
+    openDetailedMenu: PropTypes.func.isRequired,
+    closeDetailedMenu: PropTypes.func.isRequired,
   }),
   map: PropTypes.shape({}),
   data: PropTypes.shape({})
@@ -65,6 +78,7 @@ function mapStateToProps(state) {
   const props = {
     mapLegend: state.mapLegend,
     map: state.map,
+    general: state.general,
     data: state.data
   };
   return props;
@@ -82,7 +96,12 @@ function mapDispatchToProps(dispatch) {
     fetchLegend,
     updateBaseMap,
     addData,
-    addLayer
+    highlightFacility,
+    addLayer,
+    removeLayer,
+    removeAllLayers,
+    openDetailedMenu,
+    closeDetailedMenu,
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

@@ -5,7 +5,8 @@ import styles from './map.cssmodule.scss'
 import esriStyles from './esriStyles.scss'
 import autoBind from 'react-autobind'
 import Draggable, {DraggableCore} from 'react-draggable';
-import equal from 'deep-equal';
+import equal from 'deep-equal'
+import _ from 'lodash'
 
 import Legend from './legend/Legend'
 import utils from '../utils'
@@ -18,7 +19,7 @@ class Map extends Component {
 
     this.state = {
       map: undefined,
-      view: undefined,
+      view: undefined
     }
   }
 
@@ -69,18 +70,59 @@ class Map extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Check what layers are in redux, vs what is in our state and remove make them the same
+    const {layers} = nextProps
+    const {map} = this.state
+    const correctLayerUUIDs = _.map(
+      layers,
+      'id'
+    )
+    const currentLayerUUIDs = _.map(
+      this.state.map.layers._items,
+      'id'
+    )
+
+    const toAdd = _.filter(
+      correctLayerUUIDs,
+      e => currentLayerUUIDs.indexOf(e) < 0
+    )
+    const toDelete = _.filter(
+      currentLayerUUIDs,
+      e => correctLayerUUIDs.indexOf(e) < 0
+    )
+    _.map(toAdd, e => map.add(
+      _.find(
+        layers,
+        l => l.id == e
+      )
+    ))
+    _.map(toDelete, e => map.remove(
+      _.find(
+        this.state.map.layers._items,
+        l => l.id == e
+      )
+    ))
+  }
+
   componentDidUpdate(prevProps, prevState) {
-    const {addLayer} = this.props.actions
+    const {addLayer, removeAllLayers} = this.props.actions
     const prevData = prevProps.data.currentData
     const {currentData} = this.props.data
     const {layers} = this.props
 
     // If there is new data in the data searched for
+    // THIS SHOULD NOT DO THIS HERE
     if (typeof currentData != 'undefined'
         && currentData._uuid != prevData._uuid) {
+        //TODO: FIRE A REMOVEALL LAYERS ACTION
         utils.createLayerFromCurrentData(
           currentData.features,
-          this.state.map
+          this.state.map,
+          (layer) => {
+            removeAllLayers()
+            addLayer(layer)
+          }
         )
       }
   }
@@ -106,14 +148,11 @@ class Map extends Component {
           </div>
         </Draggable>
         }
-        <Draggable
-          zIndex={100} >
-          <div styleName="legend-container">
-            <SearchUtility
-              actions={actions}
-            />
-          </div>
-        </Draggable>
+        <div styleName="legend-container">
+          <SearchUtility
+            actions={actions}
+          />
+        </div>
     </div>
     )
   }

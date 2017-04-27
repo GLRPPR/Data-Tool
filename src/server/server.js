@@ -6,10 +6,13 @@ import utils from '../utils'
 
 var app = express()
 
-mongoose.connect('mongodb://localhost/data');
+mongoose.connect('mongodb://localhost/datastore');
 
 import TriFacilityModel from './models/tri-facility.js'
+import VTriFormRBREzModel from './models/v-tri-form-r-br-ez.js'
+import VTriFormRWasteExtEzModel from './models/v-tri-form-r-waste-ext-ez.js'
 
+// Add the indexes to elastic search currently only searching on models
 TriFacilityModel.createMapping(function(err, mapping) {
   if (err) {
     console.log('error creating mapping (you can safely ignore this)');
@@ -39,6 +42,21 @@ app.use(function(req, res, next) {
   next();
 });
 
+// Todo move routes outside of one file once they get a little more complex.
+app.get('/tri_facility/all', (req, res) => {
+    TriFacilityModel.find({},(err, threads) => {
+  	   res.send(threads)
+    })
+})
+
+app.get('/tri_facility/id/:id', (req, res) => {
+    TriFacilityModel.find({
+      TRI_FACILITY_ID: req.params.id
+    },(err, threads) => {
+  	   res.send(threads)
+    })
+})
+
 app.get('/tri_facility/searchshow/:term', (req, res) => {
     TriFacilityModel.search({
       query_string: {
@@ -50,6 +68,7 @@ app.get('/tri_facility/searchshow/:term', (req, res) => {
 })
 
 app.get('/tri_facility/search/:term', (req, res) => {
+  /* If one is searching for a state */
   if (utils.searchingState(req.params.term)){
     TriFacilityModel.find({
     	STATE_ABBR: utils.getStateAbbr(req.params.term)

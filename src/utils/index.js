@@ -35,7 +35,7 @@ function createAttributes(val) {
 }
 
 exports.createLayerFromCurrentData = function (
-  currentData, map
+  currentData, map, callback
 ) {
     dojoRequire([
       "esri/layers/FeatureLayer",
@@ -48,9 +48,6 @@ exports.createLayerFromCurrentData = function (
       SimpleRenderer,
       SimpleMarkerSymbol,
     ) {
-
-      console.log("PRINTING MAP")
-      console.log(map)
 
       const fields = CONSTANTS.LAYER_FIELDS
 
@@ -90,7 +87,8 @@ exports.createLayerFromCurrentData = function (
         id: uuid.v1()
       })
 
-      map.add(layer)
+      //map.add(layer)
+      callback(layer)
     }
   )
 }
@@ -116,3 +114,21 @@ exports.getStateAbbr = function (term) {
   }
   return "ERR"
 };
+
+exports.fixDataGrid = function() {
+  window.dispatchEvent(new Event('resize'));
+}
+
+exports.getPageWidth = function() {
+  if (self.innerWidth) {
+    return self.innerWidth;
+  }
+
+  if (document.documentElement && document.documentElement.clientWidth) {
+    return document.documentElement.clientWidth;
+  }
+
+  if (document.body) {
+    return document.body.clientWidth;
+  }
+}

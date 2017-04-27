@@ -1,12 +1,13 @@
 .map-area {
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
 
 .legend-container {
   float: right;
-  position: fixed;
+  position: absolute;
   margin: 10px;
   top: 0;
   right: 0;
