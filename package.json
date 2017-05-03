@@ -14,7 +14,7 @@
     "serve:dist": "webpack-dev-server --open --env dist -p --progress",
     "server": "babel-node --presets es2015 src/server/server.js",
     "scraper": "babel-node --presets es2015 src/server/data-scraper/scraper.js",
-    "import-mappings": "mongoimport -d glrppr -c ./data-mappings/frs2tri --type csv --file ./data-mappings/frs2tri.csv --headerline && mongoimport -d glrppr -c ./data-mappings/ghg2frs --type csv --file ./data-mappings/ghg2frs.csv --headerline",
+    "import-mappings": "mongoimport -d glrppr -c frs2tri --type csv --file frs2tri.csv --headerline && mongoimport -d glrppr -c ghg2frs --type csv --file ghg2frs.csv --headerline",
     "start": "npm run serve:dev",
     "database": "mongod --dbpath=./data",
     "test": "cross-env NODE_ENV=test karma start",
