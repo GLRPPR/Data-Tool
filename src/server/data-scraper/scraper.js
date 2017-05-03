@@ -173,24 +173,24 @@ mongoose.connect('mongodb://localhost/glrppr', function(err) {
             end = i+100,
             stateInitial = statesToParse[state]
 
-        //TriFacilityQueue.push({
-        //  url: getUrl(start, end, stateInitial, "TRI_FACILITY")
-        //})
-        //ChemicalReleaseQueue.push({
-        //  url: getUrl(start, end, stateInitial, "V_TRI_FORM_R_BR_EZ")
-        //})
+        TriFacilityQueue.push({
+          url: getUrl(start, end, stateInitial, "TRI_FACILITY")
+        })
+        ChemicalReleaseQueue.push({
+          url: getUrl(start, end, stateInitial, "V_TRI_FORM_R_BR_EZ")
+        })
         GreenhouseGasEmissionQueue.push({
           url: getUrl(start, end, stateInitial, "V_GHG_EMITTER_SECTOR")
         })
-        //PollutionPreventionMethodQueue.push({
-        //  url: getUrl(start, end, stateInitial, "V_TRI_SOURCE_REDUCT_METHOD")
-        //})
-        //PollutionPreventionQuantitiesQueue.push({
-        //  url: getUrl(start, end, stateInitial, "V_TRI_SOURCE_REDUCT_QTY")
-        //})
-        //WasteManagementQueue.push({
-        //  url: getUrl(start, end, stateInitial, "V_TRI_FORM_R_WASTE_EXT_EZ")
-        //})
+        PollutionPreventionMethodQueue.push({
+          url: getUrl(start, end, stateInitial, "V_TRI_SOURCE_REDUCT_METHOD")
+        })
+        PollutionPreventionQuantitiesQueue.push({
+          url: getUrl(start, end, stateInitial, "V_TRI_SOURCE_REDUCT_QTY")
+        })
+        WasteManagementQueue.push({
+          url: getUrl(start, end, stateInitial, "V_TRI_FORM_R_WASTE_EXT_EZ")
+        })
       }
     }
 });
