@@ -151,7 +151,6 @@ app.get('/tri_facility/search/:term', (req, res) => {
     TriFacilityModel.find({
     	STATE_ABBR: utils.getStateAbbr(req.params.term)
   	},(err, facilities)=>{
-       facilities.map()
   	   res.send(facilities)
   	})
   }
