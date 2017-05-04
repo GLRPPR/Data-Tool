@@ -6,14 +6,15 @@
 import uuid from 'uuid'
 
 import {
-  ADD_DATA
+  ADD_DATA,
+  ADD_DETAILED_DATA
 } from '../actions/const'
 
 
 const initialState = {
   currentData: [{
     _uuid: uuid.v1(),
-    features: []
+   features: []
   }]
 };
 
@@ -27,6 +28,13 @@ function reducer(state = initialState, action) {
           _uuid: uuid.v1(),
           features: JSON.parse(payload.data)
         }
+      });
+    }
+    case ADD_DETAILED_DATA: {
+      let newCurrentData = Object.assign({}, state.currentData)
+      newCurrentData.detailedData = JSON.parse(payload.data)
+      return Object.assign({}, state, {
+        currentData: newCurrentData
       });
     }
     default: {

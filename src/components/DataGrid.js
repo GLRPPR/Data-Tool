@@ -9,6 +9,7 @@ import extend from 'xtend'
 import CONSTANTS from '../utils/constants'
 import styles from './datagrid.cssmodule.scss'
 import utils from '../utils'
+import api from '../api'
 
 const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
@@ -100,6 +101,19 @@ class DataGrid extends Component {
     this.setState({ filters: newFilters });
   }
 
+  _getDetailedData(summaryTableRow){
+    const triFacilityId = summaryTableRow.TRI_FACILITY_ID
+    const {addDetailedData} = this.props.actions
+    console.log(triFacilityId)
+    api.requestDetailed(triFacilityId, (err, resp) => {
+      if (err) {
+        console.log("ERROR: error making request.")
+      }
+      addDetailedData(resp.body)
+    })
+    
+  }
+
   _onRowClick(rowIdx, row) {
     const {
       highlightFacility,
@@ -107,6 +121,7 @@ class DataGrid extends Component {
     } = this.props.actions
     let rows = this.state.rows.slice();
     highlightFacility(rows[rowIdx])
+    this._getDetailedData(rows[rowIdx])
     // TODO add action here to add info to detailed menu
     openDetailedMenu()
   }

@@ -27,6 +27,7 @@ import {
   removeAllLayers,
   openDetailedMenu,
   closeDetailedMenu,
+  addDetailedData
 } from '../actions/';
 import AppComponent from '../components/App';
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
@@ -68,6 +69,7 @@ App.propTypes = {
     highlightFacility: PropTypes.func.isRequired,
     openDetailedMenu: PropTypes.func.isRequired,
     closeDetailedMenu: PropTypes.func.isRequired,
+    addDetailedData: PropTypes.func.isRequired,
   }),
   map: PropTypes.shape({}),
   data: PropTypes.shape({})
@@ -102,6 +104,7 @@ function mapDispatchToProps(dispatch) {
     removeAllLayers,
     openDetailedMenu,
     closeDetailedMenu,
+    addDetailedData
   };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;

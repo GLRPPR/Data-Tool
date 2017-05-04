@@ -22,6 +22,7 @@ import toggleExpanded from '../actions/legend/toggleExpanded.js';
 import showLayersNotVisibleForScale from '../actions/legend/showLayersNotVisibleForScale.js';
 import reverseLayerOrder from '../actions/legend/reverseLayerOrder.js';
 import setInitialLegend from '../actions/legend/setInitialLegend.js';
+import addDetailedData from '../actions/addDetailedData.js';
 const actions = {
   setInitialLegend,
   reverseLayerOrder,
@@ -38,6 +39,7 @@ const actions = {
   removeLayer,
   removeAllLayers,
   openDetailedMenu,
-  closeDetailedMenu
+  closeDetailedMenu,
+  addDetailedData
 };
 module.exports = actions;

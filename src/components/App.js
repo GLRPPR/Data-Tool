@@ -9,6 +9,7 @@ import styles from './app.cssmodule.scss'
 import Map from './Map.js'
 import Modal from './Modal.js'
 import DataGrid from './DataGrid.js'
+import DetailedInfo from './DetailedInfo.js'
 import burgerMenuStyles from './burgerMenuStyles.js'
 import sliderStyles from './styles/slider.scss'
 import utils from '../utils'
@@ -103,15 +104,10 @@ class App extends Component {
                   data={data}
                 />
               </SplitPane>
-              {/* This is where the next component will be held*/}
-              <div>
-                <button onClick={
-                    () =>{
-                      actions.closeDetailedMenu()
-                      utils.fixDataGrid()
-                    }
-                  }/>
-              </div>
+              <DetailedInfo
+                actions={actions}
+                data={data}
+              />
             </SplitPane>
           </div>
         </main>
