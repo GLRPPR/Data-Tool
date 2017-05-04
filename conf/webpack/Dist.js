@@ -15,6 +15,7 @@ class WebpackDistConfig extends WebpackBaseConfig {
       cache: false,
       devtool: 'source-map',
       entry: [
+        'webpack-dev-server/client?http://0.0.0.0:80/',
         './client.js'
       ],
       plugins: [
