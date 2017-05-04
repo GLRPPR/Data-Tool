@@ -85,6 +85,8 @@ class WebpackBaseConfig {
         historyApiFallback: true,
         hot: true,
         inline: true,
+	host: '0.0.0.0',
+	disableHostCheck: true,
         port: 8000,
         proxy: {
           '/api/*': {
