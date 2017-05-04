@@ -4,7 +4,7 @@ import extend from 'xtend';
 const genXhrArgs = (term) => {
   return {
     method: 'GET',
-    uri: `http://localhost:3000/tri_facility/search/${term}`,
+    uri: `http://localhost:8000/api/tri_facility/search/${term}`,
     headers: {
       "Content-Type": "application/json"
     }
