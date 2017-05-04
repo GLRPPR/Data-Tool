@@ -87,9 +87,9 @@ class WebpackBaseConfig {
         inline: true,
         port: 8000,
         proxy: {
-          '/efservice/*': {
+          '/api/*': {
             target: 'http://localhost:3000/',
-            pathRewrite: {'^/efservice' : ''}
+            pathRewrite: {'^/api' : ''}
           }
         }
       },
